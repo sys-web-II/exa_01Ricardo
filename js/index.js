@@ -1,6 +1,6 @@
 console.log("Index.js Functional");
 
-const vecCountries = ["Guatemala", "El Salvador", "Honduras", "Nicaragua", "Costa Rica", "Panamá"];
+const vecCountries = ["Guatemala", "El Salvador", "Honduras", "Nicaragua", "Costa Rica", "Panama"];
 console.log("Countries", vecCountries);
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -11,13 +11,24 @@ document.addEventListener("DOMContentLoaded", () => {
     const datos = [];
     const formData = new FormData(form);
     vecCountries.forEach(country => {
-      // Un ejemplo el cual yo trabaje hace 2 semanas, el cual se descubre que "/\s/g" para remplazar espacios en blanco.
-      let key = country.toLowerCase().replace(/\s/g, "");
-      let dato1 = Number(formData.get(`${key}_1`));
-      let dato2 = Number(formData.get(`${key}_2`));
-      datos.push({ pais: country, dato1, dato2 });
+      let data = country.toLowerCase().replace(/\s/g, "");
+      let dato1 = Number(formData.get(`${data}_1`));
+      let dato2 = Number(formData.get(`${data}_2`));
+      // Diferencia porcentual: ((dato2 - dato1) / dato1) * 100 
+
+      let diferencia = dato1 !== 0 ? ((dato2 - dato1) / dato1) * 100 : null;
+      // no pude hacer que que imprimiera un maximo de 2 decimales, tuve que usar AI
+      if (diferencia !== null) {
+        diferencia = diferencia.toFixed(2);
+      }
+      datos.push({ Pais: country, dato1, dato2, DiferenciaPorcentual: diferencia});
     });
-    console.log("Datos capturados:", datos);
+    console.log("Country Data:", datos);
     document.getElementById("result").innerHTML = `<pre>${JSON.stringify(datos, null, 2)}</pre>`;
   });
 });
+
+
+
+
+
